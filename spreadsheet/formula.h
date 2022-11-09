@@ -4,6 +4,9 @@
 
 #include <memory>
 #include <vector>
+#include <variant>
+#include <stdexcept>
+#include <string>
 
 // Формула, позволяющая вычислять и обновлять арифметическое выражение.
 // Поддерживаемые возможности:

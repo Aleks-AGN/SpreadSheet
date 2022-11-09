@@ -10,7 +10,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 else()
   set(
     CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Werror -Wno-unused-parameter -Wno-implicit-fallthrough"
+    "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Wno-unused-parameter -Wno-implicit-fallthrough"
   )
 endif()
 
@@ -46,6 +46,9 @@ add_executable(
 )
 
 target_link_libraries(spreadsheet antlr4_static)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  target_compile_options(antlr4_static PRIVATE /W0)
+endif()
 
 install(
   TARGETS spreadsheet

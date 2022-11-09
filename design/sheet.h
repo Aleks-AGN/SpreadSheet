@@ -12,6 +12,7 @@ public:
     void SetCell(Position pos, std::string text) override;
 
     const CellInterface* GetCell(Position pos) const override;
+
     CellInterface* GetCell(Position pos) override;
 
     void ClearCell(Position pos) override;
@@ -19,16 +20,18 @@ public:
     Size GetPrintableSize() const override;
 
     void PrintValues(std::ostream& output) const override;
+
     void PrintTexts(std::ostream& output) const override;
 
-    const Cell* GetConcreteCell(Position pos) const;
-    Cell* GetConcreteCell(Position pos);
-
 private:
-    void MaybeIncreaseSizeToIncludePosition(Position pos);
-    void PrintCells(std::ostream& output,
-                    const std::function<void(const CellInterface&)>& printCell) const;
-    Size GetActualSize() const;
+    std::vector<std::vector<std::unique_ptr<CellInterface>>> table_;
+    std::unordered_map<Position, std::set<Position>, Hasher> cell_dependencies_;
 
-    std::vector<std::vector<std::unique_ptr<Cell>>> cells_;
+    bool CheckCurcularDependency(Cell* cell, Position pos);
+
+    void DeleteDependances(Position pos);
+
+    void UpdateDependances(Position pos);
+
+    void InvalidateCaches(Position pos);
 };
